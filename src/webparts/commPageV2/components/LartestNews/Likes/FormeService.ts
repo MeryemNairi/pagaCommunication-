@@ -41,12 +41,15 @@ export const getFormData = async (newsId: number): Promise<IFormData[]> => {
   }
 };
 
-export const deleteFormData = async (id: number) => {
+export const updateFormData = async (formData: IFormData) => {
   try {
     const list = sp.web.lists.getByTitle('Like2');
-    await list.items.getById(id).delete();
+    await list.items.getById(formData.id).update({
+      likes: formData.likes
+    });
   } catch (error) {
-    console.error('Error deleting form data:', error);
-    throw new Error('An error occurred while deleting form data. Please try again.');
+    console.error('Error updating form data:', error);
+    throw new Error('An error occurred while updating form data. Please try again.');
   }
 };
+

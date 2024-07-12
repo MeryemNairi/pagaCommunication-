@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { IFormProps, IFormData } from './IFormProps';
-import { submitForm, getFormData, deleteFormData } from './FormeService';
+import { submitForm, getFormData, updateFormData } from './FormeService';
 import styles from './Forme.module.scss';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
@@ -37,33 +37,26 @@ export const Forme: React.FC<IFormProps> = ({ context, newsId }) => {
     try {
       if (isSubmitting) return; 
       setIsSubmitting(true); 
-  
+
       const existingEntryIndex = formEntries.findIndex(
         entry => entry.user === formData.user
       );
-  
+
       if (existingEntryIndex !== -1) {
         const existingEntry = formEntries[existingEntryIndex];
         if (existingEntry.likes === 1) {
-          await deleteFormData(existingEntry.id);
-          const updatedEntries = [...formEntries];
-          updatedEntries.splice(existingEntryIndex, 1);
-          setFormEntries(updatedEntries);
+          await updateFormData({ ...existingEntry, likes: 0 });
         } else {
-          await deleteFormData(existingEntry.id);
-          await submitForm({
-            ...formData,
-            likes: 1
-          });
-          fetchFormData(); 
+          await updateFormData({ ...existingEntry, likes: 1 });
         }
       } else {
+        // Si l'entrée n'existe pas, ajouter une nouvelle entrée avec likes: 1
         await submitForm({
           ...formData,
           likes: 1
         });
-        fetchFormData();
       }
+      fetchFormData();
     } catch (error) {
       console.error('Error submitting form:', error);
       alert('An error occurred while submitting the form. Please try again.');
@@ -76,33 +69,26 @@ export const Forme: React.FC<IFormProps> = ({ context, newsId }) => {
     try {
       if (isSubmitting) return; 
       setIsSubmitting(true); 
-  
+
       const existingEntryIndex = formEntries.findIndex(
         entry => entry.user === formData.user
       );
-  
+
       if (existingEntryIndex !== -1) {
         const existingEntry = formEntries[existingEntryIndex];
         if (existingEntry.likes === -1) {
-          await deleteFormData(existingEntry.id);
-          const updatedEntries = [...formEntries];
-          updatedEntries.splice(existingEntryIndex, 1);
-          setFormEntries(updatedEntries);
+          await updateFormData({ ...existingEntry, likes: 0 });
         } else {
-          await deleteFormData(existingEntry.id);
-          await submitForm({
-            ...formData,
-            likes: -1
-          });
-          fetchFormData(); 
+          await updateFormData({ ...existingEntry, likes: -1 });
         }
       } else {
+        // Si l'entrée n'existe pas, ajouter une nouvelle entrée avec likes: -1
         await submitForm({
           ...formData,
           likes: -1
         });
-        fetchFormData(); 
       }
+      fetchFormData();
     } catch (error) {
       console.error('Error submitting form:', error);
       alert('An error occurred while submitting the form. Please try again.');
