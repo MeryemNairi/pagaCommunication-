@@ -8,6 +8,14 @@
 
 
 // ---------------> new css <-----------------
+.card_content {
+    display: none; // Par défaut, le contenu est masqué
+}
+
+.card_content.show {
+    display: block; // Affiche le contenu lorsque 'showMore' est true
+}
+
 .background{
     width: 100%;
     height: 100%;
