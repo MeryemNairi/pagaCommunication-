@@ -64,13 +64,14 @@ const FirstBanner: React.FC<FirstBannerProps> = ({ onShowSavoirPlus }) => {
                         <div>
                             <p>Découvrez les personnes qui donnent vie à nos projets de communication. Notre équipe dévouée et créative est là pour vous connecter et innover. Explorez maintenant notre équipe exceptionnelle.</p>
                         </div>
+
                         <div
                             className={`${styles.card_content} ${showMore ? styles.show : ''}`}
                             ref={contentRef}
                         >
                         </div>
                         <button className={styles.card_btn} onClick={handleButtonClick}>
-                            {showMore ? 'Masquer' : 'Découvrir plus'}
+                            {showMore ? 'Découvrir moins' : 'Découvrir plus'}
                         </button>
                     </div>
                 </div>
